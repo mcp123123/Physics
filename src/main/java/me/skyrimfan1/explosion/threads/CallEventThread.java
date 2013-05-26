@@ -23,7 +23,7 @@ public class CallEventThread extends Thread {
 			try {
 				Thread.sleep(Long.MAX_VALUE);
 			} catch (InterruptedException e) {
-				// Ignore it
+				e.printStackTrace();
 			}
 		}
 	}
