@@ -81,9 +81,9 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 		Validate.notNull(block, "The block is null: method cannot proceed.");
 		
 		double sX = loc.getBlockX() + 0.5;
-        double sY = loc.getBlockY() + 1.5;
-        double sZ = loc.getBlockZ() + 0.5;
-        WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
+        	double sY = loc.getBlockY() + 1.5;
+        	double sZ = loc.getBlockZ() + 0.5;
+        	WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
 		
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
 		sWor.addEntity(fBomb);
@@ -155,9 +155,9 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 		Validate.notNull(block, "The block is null: method cannot proceed.");
 		
 		double sX = loc.getBlockX() + 0.5;
-        double sY = loc.getBlockY() + 1.5;
-        double sZ = loc.getBlockZ() + 0.5;
-        WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
+        	double sY = loc.getBlockY() + 1.5;
+        	double sZ = loc.getBlockZ() + 0.5;
+        	WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
 		
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
 		fBomb.setDamaging(true);
