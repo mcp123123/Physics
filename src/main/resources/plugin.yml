@@ -1,0 +1,11 @@
+name: Physics
+main: me.skyrimfan1.explosion.Physics
+version: 1.0.0
+description: Realistic explosive block scattering
+author: skyrimfan1
+commands:
+  physics:
+    description: Ingenious physical command base
+    aliases: physic
+
+  
