@@ -31,6 +31,7 @@ public class EntityGroundListener implements Listener {
 			thread.start();
 			
 			entity.getWorld().playEffect(entity.getLocation(), Effect.STEP_SOUND, ((CraftFallingSand) entity).getBlockId());
+			
 		}
 					
 	}

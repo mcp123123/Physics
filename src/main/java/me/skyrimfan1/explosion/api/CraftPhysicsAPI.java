@@ -74,7 +74,6 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 	/*
 	 * Don't touch me: I'm an internal plugin method!
 	 */
-	@Deprecated
 	public PhysicsFallingBlock internal(Location loc, Block block, final boolean b1){
 		
 		Validate.notNull(loc, "The location is null: method cannot proceed.");
@@ -113,9 +112,9 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 						bloc.setType(Material.AIR);
 					}
 					Location loc = fBomb.getLocation();
-					if (future <= 2) {
+					if (future <= 1) {
 						fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getMaterialID());
-						++future;
+						future = future + 1;
 					}
 				}
 			}
@@ -126,10 +125,10 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 
 			@Override
 			public void run() {
+				future = 0;
 				bombtask.cancel();
 				fBomb.remove();
 				fBomb.getLocation().getBlock().setType(Material.AIR);
-				future = 0;
 			}
 				
 		}, 400L);
@@ -183,7 +182,7 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 						if (fBomb.isLandingEffectOn()){
 							Location loc = fBomb.getLocation();
 							if (future <= 2) {
-								fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getBlock());
+								fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getBlock().getTypeId());
 								++future;
 							}
 						}
