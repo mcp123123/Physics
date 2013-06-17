@@ -1,9 +1,11 @@
 package me.skyrimfan1.explosion.api;
 
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import me.skyrimfan1.explosion.Physics;
 import me.skyrimfan1.explosion.api.events.PhysicsLaunchEvent;
 import me.skyrimfan1.explosion.threads.CallEventThread;
 import net.minecraft.server.v1_5_R3.WorldServer;
@@ -14,6 +16,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -21,7 +24,7 @@ import org.bukkit.util.Vector;
 
 public class CraftPhysicsAPI implements PhysicsAPI {
 	private Plugin plugin;
-	private int future = 0;
+	private boolean future = false;
 
 	public void startup() {
 		Logger.getLogger("Minecraft").log(Level.INFO, "[Physics] API has been intialized.");
@@ -59,18 +62,6 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 		return (float) Math.floor(nRandom) + (float)(Math.random() * ((Math.abs(random * 2)) + 1));
 	}
 	
-	@Override
-	public PhysicsFallingBlock spawnPhysicsFallingBlock(Location loc, Block block, Vector vector){
-		
-		Validate.notNull(loc, "The location is null: method cannot proceed.");
-		Validate.notNull(block, "The block is null: method cannot proceed.");
-		
-		
-		PhysicsFallingBlock fBomb = spawnPhysicsFallingBlock(loc, block, vector, 1200);
-		
-		return fBomb;
-	}
-	
 	/*
 	 * Don't touch me: I'm an internal plugin method!
 	 */
@@ -80,9 +71,9 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 		Validate.notNull(block, "The block is null: method cannot proceed.");
 		
 		double sX = loc.getBlockX() + 0.5;
-        	double sY = loc.getBlockY() + 1.5;
-        	double sZ = loc.getBlockZ() + 0.5;
-        	WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
+        double sY = loc.getBlockY() + 1.5;
+        double sZ = loc.getBlockZ() + 0.5;
+        WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
 		
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
 		sWor.addEntity(fBomb);
@@ -110,11 +101,12 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 					if (b1 == true){
 						Block bloc = fBomb.getLocation().getBlock();
 						bloc.setType(Material.AIR);
+						trickleBlock(bloc);
 					}
 					Location loc = fBomb.getLocation();
-					if (future <= 1) {
+					if (future == true) {
 						fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getMaterialID());
-						future = future + 1;
+						future = false;
 					}
 				}
 			}
@@ -125,15 +117,30 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 
 			@Override
 			public void run() {
-				future = 0;
+				future = true;
 				bombtask.cancel();
-				fBomb.remove();
-				fBomb.getLocation().getBlock().setType(Material.AIR);
+				if (b1 == true){
+					fBomb.remove();
+					fBomb.getLocation().getBlock().setType(Material.AIR);
+				}
 			}
 				
-		}, 400L);
+		}, 600L);
 		
 		return (PhysicsFallingBlock) fBomb;
+	}
+	
+	
+	@Override
+	public PhysicsFallingBlock spawnPhysicsFallingBlock(Location loc, Block block, Vector vector){
+		
+		Validate.notNull(loc, "The location is null: method cannot proceed.");
+		Validate.notNull(block, "The block is null: method cannot proceed.");
+		
+		
+		PhysicsFallingBlock fBomb = spawnPhysicsFallingBlock(loc, block, vector, 1200);
+		
+		return fBomb;
 	}
 	
 	@Override
@@ -154,9 +161,9 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 		Validate.notNull(block, "The block is null: method cannot proceed.");
 		
 		double sX = loc.getBlockX() + 0.5;
-        	double sY = loc.getBlockY() + 1.5;
-        	double sZ = loc.getBlockZ() + 0.5;
-        	WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
+        double sY = loc.getBlockY() + 1.5;
+        double sZ = loc.getBlockZ() + 0.5;
+        WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
 		
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
 		fBomb.setDamaging(true);
@@ -181,9 +188,10 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 					if (fBomb.isOnGround() == true){
 						if (fBomb.isLandingEffectOn()){
 							Location loc = fBomb.getLocation();
-							if (future <= 2) {
-								fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getBlock().getTypeId());
-								++future;
+							if (future == true) {
+								fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getMaterialID());
+								trickleBlock(fBomb.getLocation().getBlock());
+								future = false;
 							}
 						}
 					}
@@ -195,13 +203,46 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 
 			@Override
 			public void run() {
+				future = true;
 				bombtask.cancel();
-				future = 0;
+				if (plugin.getConfig().getBoolean("lag_reduction.block_destroy")){
+					fBomb.remove();
+					fBomb.getLocation().getBlock().setType(Material.AIR);
+				}
 			}
 				
 		}, ticks);
 		
 		return (PhysicsFallingBlock) fBomb;
+	}
+
+	@Override
+	public void trickleBlock(Block block) {
+		PhysicsAPI api = ((Physics) plugin).getAPI();
+		if (((Physics) plugin).getConfig().getBoolean("explosion_trickle") == true){
+				final Block above = block.getRelative(BlockFace.UP);
+				if (above.getType() == Material.AIR || above == null || above.isEmpty()){
+					return;
+				}
+				api.spawnPhysicsFallingBlock(above.getLocation(), above, new Vector(Math.random(), 0 , Math.random()));
+				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+
+					@Override
+					public void run() {
+						above.setType(Material.AIR);
+						above.getWorld().playEffect(above.getLocation(), Effect.STEP_SOUND, above.getTypeId());
+						trickleBlock(above);
+					}
+					
+				}, 2L);
+		}
+	}
+
+	@Override
+	public void trickleBlock(List<Block> blockList) {
+		for (Block b : blockList){
+			trickleBlock(b);
+		}
 	}
 
 }

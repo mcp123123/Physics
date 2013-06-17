@@ -1,5 +1,7 @@
 package me.skyrimfan1.explosion.api;
 
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
@@ -72,5 +74,26 @@ public interface PhysicsAPI {
 	 * @author skyrimfan1
 	 */
 	public PhysicsFallingBlock spawnPhysicsFallingBlock(Location loc, Block block, Vector vector, long ticks);
+	
+	/**
+	 * <p>
+	 * <b>Cause a chain reaction of blocks falling due to the offset of one</b>
+	 * <p>
+	 * <i>The trickling mechanism has not been fully developed and is still ongoing testing to make it function better.</i>
+	 * 
+	 * @param block The block to monitor
+	 */
+	public void trickleBlock(Block block);
+	
+	/**
+	 * <p>
+	 * <b>Cause a chain reaction of blocks falling due to the offset of one</b>
+	 * <p>
+	 * This method is the same as {@link #trickleBlock(Block)} but applies it to a list of blocks rather than one.
+	 * <i>The trickling mechanism has not been fully developed and is still ongoing testing to make it function better.</i>
+	 * 
+	 * @param blockList The blocks to monitor
+	 */
+	public void trickleBlock(List<Block> blockList);
 
 }
