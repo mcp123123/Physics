@@ -49,12 +49,12 @@ public class PhysicsGeneralCommand implements CommandExecutor {
 					List<Entity> dropped = new ArrayList<Entity>();
 					if (p.hasPermission(new Permission("physics.clear"))){
 						for (Entity e : p.getWorld().getEntities()){
-							if (e.getType() == EntityType.DROPPED_ITEM){
+							if (e.getType() == EntityType.FALLING_BLOCK){
 								dropped.add(e);
 								e.remove();
 							}
 						}
-						p.sendMessage(StringUtil.getPrefixWithSpace()+ChatColor.YELLOW+"Removed "+ChatColor.BLUE+dropped.size()+ChatColor.YELLOW+" dropped items in world: "+ChatColor.BLUE+p.getWorld().getName());
+						p.sendMessage(StringUtil.getPrefixWithSpace()+ChatColor.YELLOW+"Removed "+ChatColor.BLUE+dropped.size()+ChatColor.YELLOW+" falling blocks in world: "+ChatColor.BLUE+p.getWorld().getName());
 						dropped.clear();
 						return true;
 					}
