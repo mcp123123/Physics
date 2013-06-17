@@ -8,10 +8,10 @@ lag_reduction:
   block_drop: false
   # RECOMMENDED STAGE: false
   # If set to false, explosions won't drop anything, reducing ground items
-  entity_count: true
-  # RECOMMENDED STAGE: true
-  # Will periodically check and limit the amount of dropped items in the world to reduce lag
 explosion_fire: true
 # RECOMMENDED STAGE: ---
 # Will produce a particle effect for explosions
+explosion_trickle: true
+# RECOMMENDED STAGE: ---
+# Will cause exploding blocks to affect the ones above them
 
