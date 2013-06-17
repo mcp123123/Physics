@@ -10,7 +10,6 @@ import me.skyrimfan1.explosion.api.PhysicsFallingBlock;
 import me.skyrimfan1.explosion.commands.PhysicsGeneralCommand;
 import me.skyrimfan1.explosion.listeners.EntityGroundListener;
 import me.skyrimfan1.explosion.listeners.ExplosionPhysics;
-import me.skyrimfan1.explosion.runnables.EntityCount;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -71,12 +70,10 @@ public class Physics extends JavaPlugin {
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		logInfo("A whirlgig of a config has been loaded!");
+		logInfo("Explosion Fire: "+Boolean.valueOf(getConfig().getBoolean("explosion_fire")));
+		logInfo("Explosion Trickling: "+Boolean.valueOf(getConfig().getBoolean("explosion_trickle")));
 		logInfo("[Lag-Combat] Block Destruction: "+Boolean.valueOf(getConfig().getBoolean("lag_reduction.block_destroy")));
 		logInfo("[Lag-Combat] Block Drops: "+Boolean.valueOf(getConfig().getBoolean("lag_reduction.block_drop")));
-		logInfo("[Lag-Combat] Entity Count: "+Boolean.valueOf(getConfig().getBoolean("lag_reduction.entity_count")));
-		if (getConfig().getBoolean("lag_reduction.entity_count") == true){
-			getServer().getScheduler().scheduleSyncRepeatingTask(this, new EntityCount(this), 0L, 60L);
-		}
 	}
 
 	private void closeConfig(){
