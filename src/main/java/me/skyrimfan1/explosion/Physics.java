@@ -1,5 +1,6 @@
 package me.skyrimfan1.explosion;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,6 +70,10 @@ public class Physics extends JavaPlugin {
 	private void registerConfig(){
 		getConfig().options().copyDefaults(true);
 		saveConfig();
+		File config = new File(this.getDataFolder(), "config.yml");
+		if (config.exists() == false){
+			logInfo("This is your first time, right?");
+		}
 		logInfo("A whirlgig of a config has been loaded!");
 		logInfo("Explosion Fire: "+Boolean.valueOf(getConfig().getBoolean("explosion_fire")));
 		logInfo("Explosion Trickling: "+Boolean.valueOf(getConfig().getBoolean("explosion_trickle")));
