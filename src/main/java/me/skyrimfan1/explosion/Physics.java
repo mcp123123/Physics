@@ -11,6 +11,8 @@ import me.skyrimfan1.explosion.api.PhysicsFallingBlock;
 import me.skyrimfan1.explosion.commands.PhysicsGeneralCommand;
 import me.skyrimfan1.explosion.listeners.EntityGroundListener;
 import me.skyrimfan1.explosion.listeners.ExplosionPhysics;
+import me.skyrimfan1.explosion.runnables.BlockNearbyRunnable;
+import net.minecraft.server.v1_6_R2.EntityTypes;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,6 +39,7 @@ public class Physics extends JavaPlugin {
 		logInfo("Loading Stage: SUCCESS");
 		
 		invoke();
+		beginDamaging();
 	}
 	
 	@Override
@@ -104,7 +107,7 @@ public class Physics extends JavaPlugin {
 	        args[1] = String.class;
 	        args[2] = int.class;
 	
-	        Method a = net.minecraft.server.v1_5_R3.EntityTypes.class.getDeclaredMethod("a", args);
+	        Method a = EntityTypes.class.getDeclaredMethod("a", args);
 	        a.setAccessible(true);
 	
 	        a.invoke(a, PhysicsFallingBlock.class, "FallingSand", 21);
@@ -116,6 +119,10 @@ public class Physics extends JavaPlugin {
 	public void reloadPlugin(){
 		setEnabled(false);
 		setEnabled(true);
+	}
+	
+	private void beginDamaging(){
+		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new BlockNearbyRunnable(this), 0L, 1L);
 	}
 	
 }

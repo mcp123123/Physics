@@ -16,55 +16,6 @@ public interface PhysicsFallingBlock {
 	 * @author skyrimfan1
 	 */
 	public boolean isOnGround();
-	
-	/**
-	 * <p>
-	 * Gets the amount on average a falling block will do.
-	 * <p>
-	 * Do note that it is ON AVERAGE and not a definitive amount.
-	 * Falling Block damage is calculated through its vector or how far it's been up in the air.
-	 * 
-	 * @deprecated Method not secure yet: Undergoing testing
-	 * @return The amount of damage a falling block will do on average
-	 * @author skyrimfan1
-	 */
-	@Deprecated
-	public int getDamagingAmount();
-	
-	/**
-	 * <p>
-	 * Sets the amount on average a falling block will do.
-	 * <p>
-	 * Do note that it is ON AVERAGE and not a definitive amount.
-	 * Falling Block damage is calculated through its vector or how far it's been up in the air.
-	 * 
-	 * @deprecated Method not secure yet: Undergoing testing
-	 * @param damage How much damage on average the block will do
-	 * @author skyrimfan1
-	 */
-	@Deprecated
-	public void setDamagingAmount(int damage);
-	
-	/**
-	 * Sets whether the falling block will do damage or not
-	 * <p>
-	 * If the block is doing damage and no prior damage has been set, it will follow Notchian mechanics.
-	 * 
-	 * @param doDamage
-	 * @author skyrimfan1
-	 */
-	public void setDamaging(boolean doDamage);
-	
-	/**
-	 * <p>
-	 * Gets whether the falling block will do damage or not.
-	 * <p>
-	 * If the block is doing damage and no prior damage has been set, it will follow Notchian mechanics.
-	 * 
-	 * @param doDamage
-	 * @author skyrimfan1
-	 */
-	public boolean isDamaging();
 
 	/**
 	 * <p>

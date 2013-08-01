@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import me.skyrimfan1.explosion.Physics;
 import me.skyrimfan1.explosion.api.events.PhysicsLaunchEvent;
 import me.skyrimfan1.explosion.threads.CallEventThread;
-import net.minecraft.server.v1_5_R3.WorldServer;
+import net.minecraft.server.v1_6_R2.WorldServer;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -17,7 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -101,7 +101,6 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 					if (b1 == true){
 						Block bloc = fBomb.getLocation().getBlock();
 						bloc.setType(Material.AIR);
-						trickleBlock(bloc);
 					}
 					Location loc = fBomb.getLocation();
 					if (future == true) {
@@ -166,7 +165,6 @@ public class CraftPhysicsAPI implements PhysicsAPI {
         WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
 		
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
-		fBomb.setDamaging(true);
 		sWor.addEntity(fBomb);
 		
 		fBomb.setVelocity(vector);
@@ -190,7 +188,6 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 							Location loc = fBomb.getLocation();
 							if (future == true) {
 								fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getMaterialID());
-								trickleBlock(fBomb.getLocation().getBlock());
 								future = false;
 							}
 						}
@@ -218,19 +215,19 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 
 	@Override
 	public void trickleBlock(Block block) {
-		PhysicsAPI api = ((Physics) plugin).getAPI();
+		final PhysicsAPI api = ((Physics) plugin).getAPI();
 		if (((Physics) plugin).getConfig().getBoolean("explosion_trickle") == true){
 				final Block above = block.getRelative(BlockFace.UP);
 				if (above.getType() == Material.AIR || above == null || above.isEmpty()){
 					return;
 				}
-				api.spawnPhysicsFallingBlock(above.getLocation(), above, new Vector(Math.random(), 0 , Math.random()));
+				above.getWorld().playEffect(above.getLocation(), Effect.STEP_SOUND, above.getTypeId());
+				above.setType(Material.AIR);
 				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 
 					@Override
 					public void run() {
-						above.setType(Material.AIR);
-						above.getWorld().playEffect(above.getLocation(), Effect.STEP_SOUND, above.getTypeId());
+						api.spawnPhysicsFallingBlock(above.getLocation(), above, new Vector(Math.random(), Math.random() , Math.random()));
 						trickleBlock(above);
 					}
 					

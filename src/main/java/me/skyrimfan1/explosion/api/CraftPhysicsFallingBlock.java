@@ -1,24 +1,20 @@
 package me.skyrimfan1.explosion.api;
 
+import net.minecraft.server.v1_6_R2.Block;
+import net.minecraft.server.v1_6_R2.EntityFallingBlock;
+import net.minecraft.server.v1_6_R2.World;
+import net.minecraft.server.v1_6_R2.WorldServer;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
-import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftPlayer;
-
-import net.minecraft.server.v1_5_R3.Block;
-import net.minecraft.server.v1_5_R3.EntityFallingBlock;
-import net.minecraft.server.v1_5_R3.World;
-import net.minecraft.server.v1_5_R3.WorldServer;
 
 public class CraftPhysicsFallingBlock extends EntityFallingBlock implements PhysicsFallingBlock {
 	private org.bukkit.block.Block blockus;
     private float brightness = 0.0F;
-    private boolean doingDamage = true;
-    private int damageAmt = 0;
     private boolean playEffect = true;
  
     @Override
@@ -58,12 +54,9 @@ public class CraftPhysicsFallingBlock extends EntityFallingBlock implements Phys
     }
  
     public void setPassenger(Entity e) {
-        this.passenger = (net.minecraft.server.v1_5_R3.Entity) e;
+        this.passenger = (net.minecraft.server.v1_6_R2.Entity) e;
     }
- 
-    public void setPassenger(Player p) {
-        this.passenger = ((CraftPlayer)p).getHandle();
-    }
+
  
     @Deprecated
     public CraftPhysicsFallingBlock(World sW, double d1, double d2, double d3, int m, int da) {
@@ -153,30 +146,6 @@ public class CraftPhysicsFallingBlock extends EntityFallingBlock implements Phys
     @Override
 	public boolean isOnGround() {
 		return this.onGround;
-	}
-
-    @Deprecated
-	@Override
-	public int getDamagingAmount() {
-		return damageAmt;
-	}
-
-	@Deprecated
-	@Override
-	public void setDamagingAmount(int damage) {
-		damageAmt = damage;
-		super.a(damage);
-	}
-
-	@Override
-	public void setDamaging(boolean doDamage) {
-		doingDamage = doDamage;
-		super.a(doDamage);
-	}
-
-	@Override
-	public boolean isDamaging() {
-		return doingDamage;
 	}
 
 	@Override
