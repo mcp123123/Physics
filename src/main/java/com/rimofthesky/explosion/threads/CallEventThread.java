@@ -1,10 +1,11 @@
-package me.skyrimfan1.explosion.threads;
+package com.rimofthesky.explosion.threads;
 
 import org.bukkit.Bukkit;
 
-import me.skyrimfan1.explosion.api.PhysicsFallingBlock;
-import me.skyrimfan1.explosion.api.PhysicsMethodType;
-import me.skyrimfan1.explosion.api.events.PhysicsGroundEvent;
+import com.rimofthesky.explosion.api.PhysicsFallingBlock;
+import com.rimofthesky.explosion.api.PhysicsMethodType;
+import com.rimofthesky.explosion.api.events.PhysicsGroundEvent;
+
 
 public class CallEventThread extends Thread {
 	private PhysicsFallingBlock fblock;

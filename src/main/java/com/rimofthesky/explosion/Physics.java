@@ -1,20 +1,21 @@
-package me.skyrimfan1.explosion;
+package com.rimofthesky.explosion;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import me.skyrimfan1.explosion.api.CraftPhysicsAPI;
-import me.skyrimfan1.explosion.api.PhysicsAPI;
-import me.skyrimfan1.explosion.api.PhysicsFallingBlock;
-import me.skyrimfan1.explosion.commands.PhysicsGeneralCommand;
-import me.skyrimfan1.explosion.listeners.EntityGroundListener;
-import me.skyrimfan1.explosion.listeners.ExplosionPhysics;
-import me.skyrimfan1.explosion.runnables.BlockNearbyRunnable;
-import net.minecraft.server.v1_6_R2.EntityTypes;
+import net.minecraft.server.v1_6_R3.EntityTypes;
 
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.rimofthesky.explosion.api.CraftPhysicsAPI;
+import com.rimofthesky.explosion.api.PhysicsAPI;
+import com.rimofthesky.explosion.api.PhysicsFallingBlock;
+import com.rimofthesky.explosion.commands.PhysicsGeneralCommand;
+import com.rimofthesky.explosion.listeners.EntityGroundListener;
+import com.rimofthesky.explosion.listeners.ExplosionPhysics;
+import com.rimofthesky.explosion.runnables.BlockNearbyRunnable;
 
 public class Physics extends JavaPlugin {
 	private CraftPhysicsAPI api = new CraftPhysicsAPI();

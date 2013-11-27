@@ -1,13 +1,14 @@
-package me.skyrimfan1.explosion.runnables;
+package com.rimofthesky.explosion.runnables;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.skyrimfan1.explosion.Physics;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
+
+import com.rimofthesky.explosion.Physics;
 
 public class BlockNearbyRunnable implements Runnable {
 	private Physics physics;

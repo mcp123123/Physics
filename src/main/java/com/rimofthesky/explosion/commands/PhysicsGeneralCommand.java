@@ -1,10 +1,8 @@
-package me.skyrimfan1.explosion.commands;
+package com.rimofthesky.explosion.commands;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.skyrimfan1.explosion.Physics;
-import me.skyrimfan1.explosion.api.helpers.StringUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,6 +13,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+
+import com.rimofthesky.explosion.Physics;
+import com.rimofthesky.explosion.api.helpers.StringUtil;
 
 public class PhysicsGeneralCommand implements CommandExecutor {
 	private Physics physics;

@@ -1,4 +1,4 @@
-package me.skyrimfan1.explosion.api.helpers;
+package com.rimofthesky.explosion.api.helpers;
 
 import java.util.ArrayList;
 import java.util.List;

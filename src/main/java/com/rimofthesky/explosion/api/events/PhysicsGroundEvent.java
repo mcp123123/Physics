@@ -1,13 +1,14 @@
-package me.skyrimfan1.explosion.api.events;
+package com.rimofthesky.explosion.api.events;
 
-import me.skyrimfan1.explosion.api.PhysicsFallingBlock;
-import me.skyrimfan1.explosion.api.PhysicsMethodType;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import com.rimofthesky.explosion.api.PhysicsFallingBlock;
+import com.rimofthesky.explosion.api.PhysicsMethodType;
 
 public class PhysicsGroundEvent extends Event {
 	private static HandlerList handlers = new HandlerList();

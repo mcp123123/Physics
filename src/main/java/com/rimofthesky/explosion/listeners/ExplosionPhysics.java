@@ -1,11 +1,7 @@
-package me.skyrimfan1.explosion.listeners;
+package com.rimofthesky.explosion.listeners;
 
 import java.util.Random;
 
-import me.skyrimfan1.explosion.Physics;
-import me.skyrimfan1.explosion.api.CraftPhysicsAPI;
-import me.skyrimfan1.explosion.api.PhysicsAPI;
-import me.skyrimfan1.explosion.api.helpers.Queue;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -15,6 +11,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
+import com.rimofthesky.explosion.Physics;
+import com.rimofthesky.explosion.api.CraftPhysicsAPI;
+import com.rimofthesky.explosion.api.PhysicsAPI;
+import com.rimofthesky.explosion.api.helpers.Queue;
+
 public class ExplosionPhysics implements Listener {
 	private Queue queue = new Queue();
 	private Physics physics;
@@ -23,7 +24,7 @@ public class ExplosionPhysics implements Listener {
 		this.physics = physics;
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority= EventPriority.MONITOR)
 	public void onEntityExplode(final EntityExplodeEvent e){
 		final PhysicsAPI api = physics.getAPI();
 		for (int i = 0; i < e.blockList().size() / 3; i++){
@@ -49,7 +50,10 @@ public class ExplosionPhysics implements Listener {
 			}
 		}
 		
-		api.trickleBlock(e.blockList());
+		if (physics.getConfig().getBoolean("explosion_trickle") == true){
+			api.trickleBlock(e.blockList());
+		}
+		
 		queue.refreshQuene();
 	}
 

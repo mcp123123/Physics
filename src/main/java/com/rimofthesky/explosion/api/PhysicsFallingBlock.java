@@ -1,4 +1,4 @@
-package me.skyrimfan1.explosion.api;
+package com.rimofthesky.explosion.api;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

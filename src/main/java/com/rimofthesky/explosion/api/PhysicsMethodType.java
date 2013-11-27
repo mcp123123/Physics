@@ -1,4 +1,4 @@
-package me.skyrimfan1.explosion.api;
+package com.rimofthesky.explosion.api;
 
 public enum PhysicsMethodType {
 	INTERNAL,

@@ -1,13 +1,13 @@
-package me.skyrimfan1.explosion.api;
+package com.rimofthesky.explosion.api;
 
-import net.minecraft.server.v1_6_R2.Block;
-import net.minecraft.server.v1_6_R2.EntityFallingBlock;
-import net.minecraft.server.v1_6_R2.World;
-import net.minecraft.server.v1_6_R2.WorldServer;
+import net.minecraft.server.v1_6_R3.Block;
+import net.minecraft.server.v1_6_R3.EntityFallingBlock;
+import net.minecraft.server.v1_6_R3.World;
+import net.minecraft.server.v1_6_R3.WorldServer;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
@@ -17,7 +17,8 @@ public class CraftPhysicsFallingBlock extends EntityFallingBlock implements Phys
     private float brightness = 0.0F;
     private boolean playEffect = true;
  
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public Material getMaterial() {
         return Material.getMaterial(this.id);
     }
@@ -54,7 +55,7 @@ public class CraftPhysicsFallingBlock extends EntityFallingBlock implements Phys
     }
  
     public void setPassenger(Entity e) {
-        this.passenger = (net.minecraft.server.v1_6_R2.Entity) e;
+        this.passenger = (net.minecraft.server.v1_6_R3.Entity) e;
     }
 
  

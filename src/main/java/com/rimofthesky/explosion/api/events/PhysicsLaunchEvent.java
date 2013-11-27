@@ -1,13 +1,14 @@
-package me.skyrimfan1.explosion.api.events;
+package com.rimofthesky.explosion.api.events;
 
-import me.skyrimfan1.explosion.api.PhysicsFallingBlock;
-import me.skyrimfan1.explosion.api.PhysicsMethodType;
 
 import org.bukkit.Material;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.util.Vector;
+
+import com.rimofthesky.explosion.api.PhysicsFallingBlock;
+import com.rimofthesky.explosion.api.PhysicsMethodType;
 
 public class PhysicsLaunchEvent extends Event implements Cancellable {
 	private static HandlerList handlers = new HandlerList();

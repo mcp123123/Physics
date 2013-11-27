@@ -1,4 +1,4 @@
-package me.skyrimfan1.explosion.exceptions;
+package com.rimofthesky.explosion.exceptions;
 
 public class PhysicalException extends RuntimeException {
 

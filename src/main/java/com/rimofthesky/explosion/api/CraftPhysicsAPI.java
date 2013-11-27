@@ -1,14 +1,11 @@
-package me.skyrimfan1.explosion.api;
+package com.rimofthesky.explosion.api;
 
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import me.skyrimfan1.explosion.Physics;
-import me.skyrimfan1.explosion.api.events.PhysicsLaunchEvent;
-import me.skyrimfan1.explosion.threads.CallEventThread;
-import net.minecraft.server.v1_6_R2.WorldServer;
+import net.minecraft.server.v1_6_R3.WorldServer;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -17,10 +14,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_6_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_6_R3.CraftWorld;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
+
+import com.rimofthesky.explosion.Physics;
+import com.rimofthesky.explosion.api.events.PhysicsLaunchEvent;
+import com.rimofthesky.explosion.threads.CallEventThread;
 
 public class CraftPhysicsAPI implements PhysicsAPI {
 	private Plugin plugin;
@@ -75,6 +76,7 @@ public class CraftPhysicsAPI implements PhysicsAPI {
         double sZ = loc.getBlockZ() + 0.5;
         WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
 		
+		@SuppressWarnings("deprecation")
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
 		sWor.addEntity(fBomb);
 		
@@ -164,6 +166,7 @@ public class CraftPhysicsAPI implements PhysicsAPI {
         double sZ = loc.getBlockZ() + 0.5;
         WorldServer sWor = ((CraftWorld)loc.getWorld()).getHandle();
 		
+		@SuppressWarnings("deprecation")
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
 		sWor.addEntity(fBomb);
 		
@@ -213,6 +216,7 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 		return (PhysicsFallingBlock) fBomb;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void trickleBlock(Block block) {
 		final PhysicsAPI api = ((Physics) plugin).getAPI();
