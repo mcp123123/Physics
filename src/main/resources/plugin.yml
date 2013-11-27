@@ -1,6 +1,6 @@
 name: Physics
-main: me.skyrimfan1.explosion.Physics
-version: 1.0.0
+main: com.rimofthesky.explosion.Physics
+version: 1.1.0
 description: Realistic explosive block scattering
 author: skyrimfan1
 commands:
