@@ -1,6 +1,7 @@
-# == [Physics Config] ==
-#
-#
+# == [Physics Config] == #
+#                        #
+#                        #
+
 lag_reduction:
   block_destroy: true
   # RECOMMENDED STAGE: true
@@ -8,10 +9,13 @@ lag_reduction:
   block_drop: false
   # RECOMMENDED STAGE: false
   # If set to false, explosions won't drop anything, reducing ground items
-explosion_fire: true
-# RECOMMENDED STAGE: ---
-# Will produce a particle effect for explosions
 explosion_trickle: true
 # RECOMMENDED STAGE: ---
 # Will cause exploding blocks to affect the ones above them
+adjacent_trickle: true
+# RECOMMENDED STAGE: ---
+# Will give trickled blocks a slight chance to begin a new trickle effect with other blocks adjacent to them
+trickle_chance: 10
+# Subset of adjacent_trickle
+# Determines the chance of trickling. 1 = Not High ... up to 99 = Very High (100 means always, not recommended)
 
