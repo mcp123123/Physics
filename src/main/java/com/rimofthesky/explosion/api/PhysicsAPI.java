@@ -94,6 +94,18 @@ public interface PhysicsAPI {
 	 * 
 	 * @param blockList The blocks to monitor
 	 */
-	public void trickleBlock(List<Block> blockList);
+	public void trickleBlocks(List<Block> blockList);
+	
+	/**
+	 * <p>
+	 * <b>Causes adjacent blocks (N,E,S,W) to the trickled block(s) to trickle as well.
+	 * <p>
+	 * <i>Still experimental, but designed to make trickling more natural, fluid, and way cooler
+	 * <p>
+	 * Have fun with it!
+	 * 
+	 * @param block The block that will affect the others around it; the starting point
+	 */
+	public void addMultiplierEffect(Block block);
 
 }

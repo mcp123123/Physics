@@ -1,9 +1,5 @@
 package com.rimofthesky.explosion.listeners;
 
-import java.util.Random;
-
-
-import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -41,17 +37,8 @@ public class ExplosionPhysics implements Listener {
 			e.setYield(0f);
 		}
 		
-		if (physics.getConfig().getBoolean("explosion_fire") == true){
-			Random random = new Random();
-			for (Block b : e.blockList()){
-				if (random.nextBoolean() == true){
-					b.getLocation().getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-				}
-			}
-		}
-		
 		if (physics.getConfig().getBoolean("explosion_trickle") == true){
-			api.trickleBlock(e.blockList());
+			api.trickleBlocks(e.blockList());
 		}
 		
 		queue.refreshQuene();

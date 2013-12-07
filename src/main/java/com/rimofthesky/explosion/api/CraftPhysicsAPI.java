@@ -1,5 +1,7 @@
 package com.rimofthesky.explosion.api;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -25,7 +27,8 @@ import com.rimofthesky.explosion.threads.CallEventThread;
 
 public class CraftPhysicsAPI implements PhysicsAPI {
 	private Plugin plugin;
-	private boolean future = false;
+	private HashMap<CraftPhysicsFallingBlock, Boolean> future = new HashMap<CraftPhysicsFallingBlock, Boolean>();
+	//private boolean future = false;
 
 	public void startup() {
 		Logger.getLogger("Minecraft").log(Level.INFO, "[Physics] API has been intialized.");
@@ -79,6 +82,7 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 		@SuppressWarnings("deprecation")
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
 		sWor.addEntity(fBomb);
+		future.put(fBomb, true);
 		
 		float x = (float) x(); 
 		float y = (float) y();
@@ -105,20 +109,20 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 						bloc.setType(Material.AIR);
 					}
 					Location loc = fBomb.getLocation();
-					if (future == true) {
+					if (future.get(fBomb) == true) {
 						fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getMaterialID());
-						future = false;
+						future.put(fBomb, false);
 					}
 				}
 			}
 				
 		}, 0L, 20L);
 			
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+		plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable(){
 
 			@Override
 			public void run() {
-				future = true;
+				future.remove(fBomb);
 				bombtask.cancel();
 				if (b1 == true){
 					fBomb.remove();
@@ -169,6 +173,7 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 		@SuppressWarnings("deprecation")
 		final CraftPhysicsFallingBlock fBomb = new CraftPhysicsFallingBlock(sWor, sX, sY, sZ, block.getTypeId(), block.getData(), block);
 		sWor.addEntity(fBomb);
+		future.put(fBomb, true);
 		
 		fBomb.setVelocity(vector);
 		PhysicsLaunchEvent pLE = new PhysicsLaunchEvent(((PhysicsFallingBlock) fBomb), vector, PhysicsMethodType.EXTERNAL);
@@ -189,9 +194,9 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 					if (fBomb.isOnGround() == true){
 						if (fBomb.isLandingEffectOn()){
 							Location loc = fBomb.getLocation();
-							if (future == true) {
+							if (future.get(fBomb) == true) {
 								fBomb.getLocation().getWorld().playEffect(loc, Effect.STEP_SOUND, fBomb.getMaterialID());
-								future = false;
+								future.put(fBomb, false);
 							}
 						}
 					}
@@ -199,11 +204,11 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 				
 			}, 0L, 20L);
 			
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+		plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable(){
 
 			@Override
 			public void run() {
-				future = true;
+				future.remove(fBomb);
 				bombtask.cancel();
 				if (plugin.getConfig().getBoolean("lag_reduction.block_destroy")){
 					fBomb.remove();
@@ -227,20 +232,41 @@ public class CraftPhysicsAPI implements PhysicsAPI {
 				}
 				above.getWorld().playEffect(above.getLocation(), Effect.STEP_SOUND, above.getTypeId());
 				above.setType(Material.AIR);
-				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
-
-					@Override
-					public void run() {
-						api.spawnPhysicsFallingBlock(above.getLocation(), above, new Vector(Math.random(), Math.random() , Math.random()));
-						trickleBlock(above);
-					}
-					
-				}, 2L);
+				api.spawnPhysicsFallingBlock(above.getLocation(), above, new Vector(0,0,0), 600);
+				addMultiplierEffect(block);
+				trickleBlock(above);
+		}
+	}
+	
+	@Override
+	public void addMultiplierEffect(Block block){
+		if (((Physics)plugin).getConfig().getBoolean("adjacent_trickle") == true){
+			int percent = plugin.getConfig().getInt("trickle_chance");
+			List<Integer> numbers = new ArrayList<Integer>();
+			for (int chance = percent; chance > 0; chance -= 1){
+				numbers.add(chance);
+			}
+			Random random = new Random();
+			int willDo = random.nextInt(100);
+			for (int number: numbers){
+				if (willDo == number){
+					List<Block> blocks = new ArrayList<Block>();
+					Block adjOne = block.getRelative(BlockFace.NORTH);
+					Block adjTwo = block.getRelative(BlockFace.WEST);
+					Block adjThree = block.getRelative(BlockFace.EAST);
+					Block adjFour = block.getRelative(BlockFace.SOUTH);
+					blocks.add(adjOne);
+					blocks.add(adjTwo);
+					blocks.add(adjThree);
+					blocks.add(adjFour);
+					trickleBlocks(blocks);
+				}
+			}
 		}
 	}
 
 	@Override
-	public void trickleBlock(List<Block> blockList) {
+	public void trickleBlocks(List<Block> blockList) {
 		for (Block b : blockList){
 			trickleBlock(b);
 		}

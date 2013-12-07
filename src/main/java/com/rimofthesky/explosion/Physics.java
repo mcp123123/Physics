@@ -79,8 +79,11 @@ public class Physics extends JavaPlugin {
 			logInfo("This is your first time, right?");
 		}
 		logInfo("A whirlgig of a config has been loaded!");
-		logInfo("Explosion Fire: "+Boolean.valueOf(getConfig().getBoolean("explosion_fire")));
 		logInfo("Explosion Trickling: "+Boolean.valueOf(getConfig().getBoolean("explosion_trickle")));
+		logInfo("Adjacent Trickling: "+Boolean.valueOf(getConfig().getBoolean("adjacent_trickle")));
+		if (Boolean.valueOf(getConfig().getBoolean("adjacent_trickle")) == true){
+			logInfo("Subsequent Chance: "+getConfig().getInt("trickle_chance")+"/100");
+		}
 		logInfo("[Lag-Combat] Block Destruction: "+Boolean.valueOf(getConfig().getBoolean("lag_reduction.block_destroy")));
 		logInfo("[Lag-Combat] Block Drops: "+Boolean.valueOf(getConfig().getBoolean("lag_reduction.block_drop")));
 	}
